@@ -1,7 +1,13 @@
+// src/components/ChatWindow.tsx
+
 import React, { useEffect, useState } from "react";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
-import { socket } from "../socket"; // Import the socket instance
+import { socket } from "../socket";
+
+// Create an Audio object for the message tone.
+// This path works because the file is in the 'public' folder.
+const messageTone = new Audio('/message-tone.mp3');
 
 interface Message {
   id: number;
@@ -13,7 +19,8 @@ interface Message {
 const ChatWindow: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [clientsTotal, setClientsTotal] = useState(0);
-  const [name] = useState("Anonymous"); // could make this editable
+  const [name, setName] = useState("Anonymous");
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -25,6 +32,9 @@ const ChatWindow: React.FC = () => {
     });
 
     socket.on("chat-message", (data: any) => {
+      // Play sound on INCOMING messages
+      messageTone.play().catch(error => console.error("Error playing sound:", error));
+
       setMessages((prev) => [
         ...prev,
         {
@@ -36,14 +46,22 @@ const ChatWindow: React.FC = () => {
       ]);
     });
 
+    socket.on("feedback", (data: any) => {
+      setFeedback(data.feedback);
+    });
+
     return () => {
       socket.off("connect");
       socket.off("clients-total");
       socket.off("chat-message");
+      socket.off("feedback");
     };
   }, []);
 
   const handleSend = (message: string) => {
+    // Play sound on OUTGOING messages
+    messageTone.play().catch(error => console.error("Error playing sound:", error));
+
     const data = {
       name,
       message,
@@ -60,19 +78,29 @@ const ChatWindow: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full border">
-      <div className="p-2 text-sm text-gray-500 border-b">
-        Connected Clients: {clientsTotal}
+      <div className="p-2 text-sm text-gray-500 border-b flex justify-between">
+        <span>Connected Clients: {clientsTotal}</span>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Your name"
+          className="px-2 border rounded"
+        />
       </div>
       <div className="flex-1 overflow-y-auto p-2 flex flex-col">
         {messages.map((msg) => (
           <MessageBubble
             key={msg.id}
             text={msg.text}
-            sender={msg.sender === name ? "me" : "other"}
+            senderName={msg.sender}
+            dateTime={msg.dateTime}
+            senderSide={msg.sender === name ? "me" : "other"}
           />
         ))}
+        {feedback && <div className="text-gray-500 text-sm p-1">{feedback}</div>}
       </div>
-      <MessageInput onSend={handleSend} />
+      <MessageInput onSend={handleSend} name={name} />
     </div>
   );
 };

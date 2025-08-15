@@ -1,20 +1,38 @@
+// src/components/MessageBubble.tsx
+
 import React from "react";
+import dayjs from "dayjs";
+
+// The relativeTime plugin is no longer needed for the new format
+// import relativeTime from "dayjs/plugin/relativeTime";
+// dayjs.extend(relativeTime);
 
 interface MessageBubbleProps {
   text: string;
-  sender: "me" | "other";
+  senderSide: "me" | "other";
+  senderName: string;
+  dateTime: string;
 }
 
-const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
+const MessageBubble: React.FC<MessageBubbleProps> = ({
+  text,
+  senderSide,
+  senderName,
+  dateTime,
+}) => {
   return (
     <div
-      className={`max-w-xs p-2 my-1 rounded-lg ${
-        sender === "me"
+      className={`max-w-xs p-2 my-1 rounded-lg flex flex-col ${
+        senderSide === "me"
           ? "bg-blue-500 text-white self-end"
           : "bg-gray-200 text-black self-start"
       }`}
     >
-      {text}
+      <p>{text}</p>
+      <span className="text-xs opacity-70 mt-1 text-right">
+        
+        {senderName} ● {dayjs(dateTime).format("HH:mm DD.MM.YY")}
+      </span>
     </div>
   );
 };
