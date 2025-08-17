@@ -1,12 +1,10 @@
-// src/components/ChatWindow.tsx
 
 import React, { useEffect, useState } from "react";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
 import { socket } from "../socket";
 
-// Create an Audio object for the message tone.
-// This path works because the file is in the 'public' folder.
+
 const messageTone = new Audio('/message-tone.mp3');
 
 interface Message {
@@ -32,7 +30,7 @@ const ChatWindow: React.FC = () => {
     });
 
     socket.on("chat-message", (data: any) => {
-      // Play sound on INCOMING messages
+    
       messageTone.play().catch(error => console.error("Error playing sound:", error));
 
       setMessages((prev) => [
@@ -59,7 +57,7 @@ const ChatWindow: React.FC = () => {
   }, []);
 
   const handleSend = (message: string) => {
-    // Play sound on OUTGOING messages
+   
     messageTone.play().catch(error => console.error("Error playing sound:", error));
 
     const data = {
@@ -79,7 +77,7 @@ const ChatWindow: React.FC = () => {
   return (
     <div className="flex flex-col h-full border">
       <div className="p-2 text-sm text-gray-500 border-b flex justify-between">
-        <span>Connected Clients: {clientsTotal}</span>
+        <span>Clients: {clientsTotal}</span>
         <input
           type="text"
           value={name}

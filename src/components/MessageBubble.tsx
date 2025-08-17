@@ -1,11 +1,8 @@
-// src/components/MessageBubble.tsx
 
 import React from "react";
 import dayjs from "dayjs";
 
-// The relativeTime plugin is no longer needed for the new format
-// import relativeTime from "dayjs/plugin/relativeTime";
-// dayjs.extend(relativeTime);
+
 
 interface MessageBubbleProps {
   text: string;

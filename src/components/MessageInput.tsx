@@ -1,11 +1,10 @@
-// src/components/MessageInput.tsx
 
 import React, { useState } from "react";
-import { socket } from "../socket"; // ADDED: Import socket to emit events
+import { socket } from "../socket"; 
 
 interface MessageInputProps {
   onSend: (message: string) => void;
-  name: string; // ADDED: Accept the current user's name as a prop
+  name: string; 
 }
 
 const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
@@ -15,11 +14,11 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
     if (!message.trim()) return;
     onSend(message);
     setMessage("");
-    // ADDED: Clear feedback after sending a message
+    
     socket.emit("feedback", { feedback: "" });
   };
 
-  // ADDED: Handlers for typing feedback
+  
   const handleTyping = () => {
     socket.emit("feedback", {
       feedback: `${name} is typing a message...`,
@@ -41,7 +40,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
-        // ADDED: Event handlers for feedback
+        
         onFocus={handleTyping}
         onKeyPress={handleTyping}
         onBlur={handleStopTyping}
