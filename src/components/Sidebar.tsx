@@ -21,9 +21,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
           <li className="p-2 hover:bg-gray-200 rounded cursor-pointer whitespace-nowrap">
             General
           </li>
-          <li className="p-2 hover:bg-gray-200 rounded cursor-pointer whitespace-nowrap">
-            Support
-          </li>
         </ul>
       </div>
     </div>
