@@ -1,11 +1,9 @@
-
 import React, { useEffect, useState } from "react";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
 import { socket } from "../socket";
 
-
-const messageTone = new Audio('/message-tone.mp3');
+const messageTone = new Audio("/message-tone.mp3");
 
 interface Message {
   id: number;
@@ -21,32 +19,42 @@ const ChatWindow: React.FC = () => {
   const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Connected to server:", socket.id);
-    });
+    // 🔑 Kickstart backend
+    fetch("/api/socket")
+      .then(() => {
+        console.log("Socket.io backend initialized");
 
-    socket.on("clients-total", (count: number) => {
-      setClientsTotal(count);
-    });
+        socket.on("connect", () => {
+          console.log("Connected to server:", socket.id);
+        });
 
-    socket.on("chat-message", (data: any) => {
-    
-      messageTone.play().catch(error => console.error("Error playing sound:", error));
+        socket.on("clients-total", (count: number) => {
+          setClientsTotal(count);
+        });
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now(),
-          text: data.message,
-          sender: data.name,
-          dateTime: data.dateTime,
-        },
-      ]);
-    });
+        socket.on("chat-message", (data: any) => {
+          messageTone.play().catch((error) =>
+            console.error("Error playing sound:", error)
+          );
 
-    socket.on("feedback", (data: any) => {
-      setFeedback(data.feedback);
-    });
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: Date.now(),
+              text: data.message,
+              sender: data.name,
+              dateTime: data.dateTime,
+            },
+          ]);
+        });
+
+        socket.on("feedback", (data: any) => {
+          setFeedback(data.feedback);
+        });
+      })
+      .catch((err) =>
+        console.error("Error initializing Socket.io backend:", err)
+      );
 
     return () => {
       socket.off("connect");
@@ -57,8 +65,9 @@ const ChatWindow: React.FC = () => {
   }, []);
 
   const handleSend = (message: string) => {
-   
-    messageTone.play().catch(error => console.error("Error playing sound:", error));
+    messageTone.play().catch((error) =>
+      console.error("Error playing sound:", error)
+    );
 
     const data = {
       name,
@@ -70,14 +79,22 @@ const ChatWindow: React.FC = () => {
 
     setMessages((prev) => [
       ...prev,
-      { id: Date.now(), text: message, sender: name, dateTime: new Date().toISOString() },
+      {
+        id: Date.now(),
+        text: message,
+        sender: name,
+        dateTime: new Date().toISOString(),
+      },
     ]);
   };
 
   return (
     <div className="flex flex-col h-full border">
       <div className="p-2 text-sm text-gray-500 border-b flex justify-between">
-        <span>Clients: {clientsTotal}</span>
+        <span>
+          Clients:{" "}
+          {clientsTotal === 0 ? "Starting server..." : clientsTotal}
+        </span>
         <input
           type="text"
           value={name}
@@ -96,7 +113,9 @@ const ChatWindow: React.FC = () => {
             senderSide={msg.sender === name ? "me" : "other"}
           />
         ))}
-        {feedback && <div className="text-gray-500 text-sm p-1">{feedback}</div>}
+        {feedback && (
+          <div className="text-gray-500 text-sm p-1">{feedback}</div>
+        )}
       </div>
       <MessageInput onSend={handleSend} name={name} />
     </div>
