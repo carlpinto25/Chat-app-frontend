@@ -90,7 +90,7 @@ const ChatWindow: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full border">
-      <div className="p-2 text-sm text-gray-500 border-b flex justify-between">
+      <div className="p-2 text-sm text-gray-500 dark:text-amber-50 bg-gray-100 dark:bg-slate-700 border-b flex justify-between">
         <span>
           Clients:{" "}
           {clientsTotal === 0 ? "Starting server..." : clientsTotal}
