@@ -7,7 +7,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   return (
 
     <div
-      className={`bg-gray-100 dark:bg-slate-700 dark:text-white border-r p-4 transition-all duration-300 ease-in-out overflow-hidden ${
+      className={`bg-gray-100 dark:bg-slate-700 dark:text-white border-r p-4 overflow-y-auto transition-all duration-300 ease-in-out overflow-hidden ${
         isOpen ? "w-60 max-sm:w-30" : "w-0 p-0"
       }`}
     >
@@ -22,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
         <ThemeToggle/>
         </div>
         <ul>
-          <li className="p-2 hover:bg-gray-200 rounded cursor-pointer whitespace-nowrap">
+          <li className="p-2 hover:bg-gray-200 rounded cursor-pointer whitespace-nowrap max-sm:-ml-2.5">
             General
           </li>
         </ul>

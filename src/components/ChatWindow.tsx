@@ -100,7 +100,7 @@ const ChatWindow: React.FC = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your name"
-          className="px-2 border rounded"
+          className="px-2 border rounded max-sm:w-1/3"
         />
       </div>
       <div className="flex-1 overflow-y-auto p-2 flex flex-col">
