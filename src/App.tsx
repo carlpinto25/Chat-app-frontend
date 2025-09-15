@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import ChatWindow from "./components/ChatWindow";
 
+
 const App: React.FC = () => {
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -13,16 +14,16 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
-  
+    <div className="flex h-screen dark:bg-gray-600 overflow-y-auto ">
+      
       <Sidebar isOpen={isSidebarOpen} />
 
       <div className="flex-1 flex flex-col">
         
-        <div className="p-2 border-b bg-white">
+        <div className="p-2 border-b bg-white dark:bg-slate-700">
           <button
             onClick={toggleSidebar}
-            className="p-1 rounded-md hover:bg-gray-200"
+            className="p-1 rounded-md hover:bg-gray-200 dark:bg-white"
             title="Toggle Sidebar"
           >
             
