@@ -8,7 +8,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   return (
     <div
-      className={`bg-gray-100 dark:bg-slate-700 dark:text-white border-r overflow-hidden transition-all duration-300 ease-in-out overflow-hidden ${
+      className={`bg-gray-100 dark:bg-[#080a09] dark:text-white border-r overflow-hidden transition-all duration-300 ease-in-out ${
         isOpen ? "w-60 max-sm:w-30" : "w-0 p-0"
       }`}
     >

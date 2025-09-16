@@ -14,13 +14,13 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen dark:bg-gray-600 overflow-y-auto ">
+    <div className="flex h-screen dark:bg-[#080a09] overflow-y-auto ">
       
       <Sidebar isOpen={isSidebarOpen} />
 
       <div className="flex-1 flex flex-col">
         
-        <div className="p-2 border-b bg-white dark:bg-slate-700">
+        <div className="p-2 border-b bg-white dark:bg-[#080a09] border-b-white">
           <button
             onClick={toggleSidebar}
             className="p-1 rounded-md hover:bg-gray-200 dark:bg-white"
