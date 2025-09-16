@@ -19,14 +19,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, firstChar }) => {
       >
         {/* ✅ Added ThemeToggle + responsive row/col */}
         <div className="flex flex-row max-sm:flex-col gap-25 max-sm:gap-2 py-4">
-          <h2 className="text-lg font-semibold mb-2 ml-2 whitespace-nowrap">
+          <h2 className="text-lg font-semibold ml-2 whitespace-nowrap max-sm:mb-1 max-sm:relative bottom-2">
             Chats
           </h2>
           <ThemeToggle />
         </div>
 
-        <ul>
-          <li className="p-2 hover:bg-gray-200 dark:hover:text-black font-700 whitespace-nowrap transition duration-300 ease-in-out">
+        <ul className="max-sm:-mt-1">
+          <li className="p-2 hover:bg-gray-200 dark:hover:text-black font-700 whitespace-nowrap transition duration-300 ease-in-out max-sm:-mt-6 active:bg-gray-200">
             {/* ✅ Added responsive margin */}
             General
           </li>

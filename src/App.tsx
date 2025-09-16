@@ -2,6 +2,7 @@ import { VscLayoutSidebarLeft } from "react-icons/vsc";
 import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import ChatWindow from "./components/ChatWindow";
+import ThemeToggle from "./components/Themetoggle";
 
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -27,6 +28,9 @@ const App: React.FC = () => {
             <VscLayoutSidebarLeft size={18} />
           </button>
         </div>
+        <div className="block sm:hidden ">
+    <ThemeToggle />
+  </div>
 
         <div className="flex-1">
           <ChatWindow name={name} setName={setName} />
