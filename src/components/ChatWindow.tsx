@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react"; // ✅ added useRef
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
 import { socket } from "../socket";
@@ -12,15 +12,18 @@ interface Message {
   dateTime: string;
 }
 
-const ChatWindow: React.FC = () => {
+interface ChatWindowProps {
+  name: string;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const ChatWindow: React.FC<ChatWindowProps> = ({ name, setName }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [clientsTotal, setClientsTotal] = useState(0);
-  const [name, setName] = useState("Anonymous");
   const [feedback, setFeedback] = useState("");
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null); // ✅ added
 
   useEffect(() => {
-    // 🔑 Kickstart backend
     fetch("/api/socket")
       .then(() => {
         console.log("Socket.io backend initialized");
@@ -34,7 +37,9 @@ const ChatWindow: React.FC = () => {
         });
 
         socket.on("chat-message", (data: any) => {
-          messageTone.play().catch((error) => console.error("Error playing sound:", error));
+          messageTone.play().catch((error) =>
+            console.error("Error playing sound:", error)
+          );
 
           setMessages((prev) => [
             ...prev,
@@ -51,7 +56,9 @@ const ChatWindow: React.FC = () => {
           setFeedback(data.feedback);
         });
       })
-      .catch((err) => console.error("Error initializing Socket.io backend:", err));
+      .catch((err) =>
+        console.error("Error initializing Socket.io backend:", err)
+      );
 
     return () => {
       socket.off("connect");
@@ -61,6 +68,7 @@ const ChatWindow: React.FC = () => {
     };
   }, []);
 
+  // ✅ auto-scroll to bottom when messages update
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -68,7 +76,9 @@ const ChatWindow: React.FC = () => {
   }, [messages]);
 
   const handleSend = (message: string) => {
-    messageTone.play().catch((error) => console.error("Error playing sound:", error));
+    messageTone.play().catch((error) =>
+      console.error("Error playing sound:", error)
+    );
 
     const data = {
       name,
@@ -90,8 +100,8 @@ const ChatWindow: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-[93.5vh] border">
-      <div className="p-2 text-sm text-gray-500 dark:text-amber-50 bg-gray-100 dark:bg-[#080a09] border-b flex justify-between">
+    <div className="flex flex-col h-[93.5vh]"> {/* ✅ added height + border */}
+      <div className="p-2 text-sm text-gray-500 border-b border-b-gray-300 dark:text-amber-50 bg-[#F6F6F7] dark:bg-[#3A3A3A] flex justify-between"> {/* ✅ dark mode */}
         <span>
           Clients:{" "}
           {clientsTotal === 0 ? "Starting server..." : clientsTotal}
@@ -100,8 +110,8 @@ const ChatWindow: React.FC = () => {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Your name"
-          className="px-2 border rounded max-sm:w-1/3"
+          placeholder="Your name" 
+          className="px-2 border border-gray-400 rounded max-sm:w-1/3" 
         />
       </div>
       <div className="flex-1 overflow-y-auto p-2 flex flex-col">
@@ -117,7 +127,7 @@ const ChatWindow: React.FC = () => {
         {feedback && (
           <div className="text-gray-500 text-sm p-1">{feedback}</div>
         )}
-        <div ref={messagesEndRef} />
+        <div ref={messagesEndRef} /> {/* ✅ auto-scroll anchor */}
       </div>
       <MessageInput onSend={handleSend} name={name} />
     </div>
