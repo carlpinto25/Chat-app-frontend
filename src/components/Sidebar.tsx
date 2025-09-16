@@ -26,7 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, firstChar }) => {
         </div>
 
         <ul>
-          <li className="p-2 hover:bg-gray-200 rounded font-700 cursor-pointer whitespace-nowrap transition duration-300 ease-in-out">
+          <li className="p-2 hover:bg-gray-200 dark:hover:text-black font-700 whitespace-nowrap transition duration-300 ease-in-out">
             {/* ✅ Added responsive margin */}
             General
           </li>
