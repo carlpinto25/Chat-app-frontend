@@ -7,7 +7,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   return (
 
     <div
-      className={`bg-gray-100 dark:bg-slate-700 dark:text-white border-r  overflow-y-auto transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? "w-60 max-sm:w-30" : "w-0 p-0"
+      className={`bg-gray-100 dark:bg-slate-800 dark:text-white overflow-y-auto transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? "w-60 max-sm:w-30" : "w-0 p-0"
         }`}
     >
 
