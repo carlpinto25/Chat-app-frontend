@@ -2,31 +2,32 @@
 import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import ChatWindow from "./components/ChatWindow";
+import ThemeToggle from "./components/Themetoggle";
 
 
 const App: React.FC = () => {
-  
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
   return (
     <div className="flex h-screen dark:bg-gray-600 overflow-y-auto ">
-      
+
       <Sidebar isOpen={isSidebarOpen} />
 
       <div className="flex-1 flex flex-col">
-        
-        <div className="p-2 border-b bg-white dark:bg-slate-700">
+
+        <div className="p-2 border-b bg-white dark:bg-slate-700 flex justify-between">
           <button
             onClick={toggleSidebar}
             className="p-1 rounded-md hover:bg-gray-200 dark:bg-white"
             title="Toggle Sidebar"
           >
-            
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -42,9 +43,13 @@ const App: React.FC = () => {
               />
             </svg>
           </button>
+          <div>
+            AI Chat App
+          </div>
+          <ThemeToggle/>
         </div>
 
-        
+
         <div className="flex-1">
           <ChatWindow />
         </div>
