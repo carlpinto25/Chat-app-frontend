@@ -32,13 +32,11 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
   };
 
   return (
-    <div className="flex p-2 border-t dark:bg-[#080a09] border-t-white ml-10">
-      <div>
-        <div className="w-3 h-7 rounded-2xl -ml-8 bg-red-600 border-2 border-black"></div>
-      </div>
+    <div className="flex p-2 border-t dark:bg-[#080a09] border-t-white">
+      <img src="/rec.png" alt="Recorder" className="w-10 hover:scale-104 hover:bg-black hover:bg-clip-content"/>
       <input
         type="text"
-        className="flex-1 p-2 border rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20"
+        className="flex-1 p-2 border rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20 ml-2"
         placeholder="Type a message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
