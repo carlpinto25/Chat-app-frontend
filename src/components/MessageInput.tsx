@@ -32,7 +32,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
   };
 
   return (
-    <div className="flex p-2 border-t dark:bg-[#080a09] border-t-white">
+    <div className="flex p-2 border-t dark:bg-[#080a09] border-t-white"> //dark theme changed
       <input
         type="text"
         className="flex-1 p-2 border rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20"
