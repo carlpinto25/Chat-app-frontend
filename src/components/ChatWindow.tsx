@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
 import { socket } from "../socket";
@@ -17,6 +17,7 @@ const ChatWindow: React.FC = () => {
   const [clientsTotal, setClientsTotal] = useState(0);
   const [name, setName] = useState("Anonymous");
   const [feedback, setFeedback] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // 🔑 Kickstart backend
@@ -33,9 +34,7 @@ const ChatWindow: React.FC = () => {
         });
 
         socket.on("chat-message", (data: any) => {
-          messageTone.play().catch((error) =>
-            console.error("Error playing sound:", error)
-          );
+          messageTone.play().catch((error) => console.error("Error playing sound:", error));
 
           setMessages((prev) => [
             ...prev,
@@ -52,9 +51,7 @@ const ChatWindow: React.FC = () => {
           setFeedback(data.feedback);
         });
       })
-      .catch((err) =>
-        console.error("Error initializing Socket.io backend:", err)
-      );
+      .catch((err) => console.error("Error initializing Socket.io backend:", err));
 
     return () => {
       socket.off("connect");
@@ -64,10 +61,14 @@ const ChatWindow: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   const handleSend = (message: string) => {
-    messageTone.play().catch((error) =>
-      console.error("Error playing sound:", error)
-    );
+    messageTone.play().catch((error) => console.error("Error playing sound:", error));
 
     const data = {
       name,
@@ -89,7 +90,7 @@ const ChatWindow: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full border">
+    <div className="flex flex-col h-[93vh] border">
       <div className="p-2 text-sm text-gray-500 dark:text-amber-50 bg-gray-100 dark:bg-slate-700 border-b flex justify-between">
         <span>
           Clients:{" "}
@@ -116,6 +117,7 @@ const ChatWindow: React.FC = () => {
         {feedback && (
           <div className="text-gray-500 text-sm p-1">{feedback}</div>
         )}
+        <div ref={messagesEndRef} />
       </div>
       <MessageInput onSend={handleSend} name={name} />
     </div>
