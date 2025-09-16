@@ -111,7 +111,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ name, setName }) => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your name" 
-          className="px-2 border border-gray-400 rounded max-sm:w-1/3" 
+          className="px-2 border border-black rounded max-sm:w-1/3 dark:border-white" 
         />
       </div>
       <div className="flex-1 overflow-y-auto p-2 flex flex-col">
