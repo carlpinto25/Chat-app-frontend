@@ -1,52 +1,39 @@
-
+import { VscLayoutSidebarLeft } from "react-icons/vsc";
 import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import ChatWindow from "./components/ChatWindow";
-
+import ThemeToggle from "./components/Themetoggle";
 
 const App: React.FC = () => {
-  
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [name, setName] = useState("");
 
-  
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const firstChar = name ? name.charAt(0).toUpperCase() : "";
+
   return (
-    <div className="flex h-screen dark:bg-[#080a09] overflow-y-auto ">
-      
-      <Sidebar isOpen={isSidebarOpen} />
+    <div className="flex h-screen bg-gray-50 dark:bg-[#161618] overflow-y-auto">
+      <Sidebar isOpen={isSidebarOpen} firstChar={firstChar} />
 
       <div className="flex-1 flex flex-col">
-        
-        <div className="p-2 border-b bg-white dark:bg-[#080a09] border-b-white">
+        <div className="p-2 bg-white dark:bg-[#1B1B1F]">
           <button
             onClick={toggleSidebar}
-            className="p-1 rounded-md hover:bg-gray-200 dark:bg-white"
+            className="p-1 rounded-md hover:bg-gray-200 dark:bg-white transition duration-100 ease-in-out cursor-pointer"
             title="Toggle Sidebar"
           >
-            
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+            <VscLayoutSidebarLeft size={18} />
           </button>
         </div>
+        <div className="block sm:hidden ">
+    <ThemeToggle />
+  </div>
 
-        
         <div className="flex-1">
-          <ChatWindow />
+          <ChatWindow name={name} setName={setName} />
         </div>
       </div>
     </div>

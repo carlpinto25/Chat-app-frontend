@@ -1,10 +1,10 @@
-
 import React, { useState } from "react";
-import { socket } from "../socket"; 
+import { socket } from "../socket";
+import { BiSend } from "react-icons/bi";
 
 interface MessageInputProps {
   onSend: (message: string) => void;
-  name: string; 
+  name: string;
 }
 
 const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
@@ -14,11 +14,10 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
     if (!message.trim()) return;
     onSend(message);
     setMessage("");
-    
+
     socket.emit("feedback", { feedback: "" });
   };
 
-  
   const handleTyping = () => {
     socket.emit("feedback", {
       feedback: `${name} is typing a message...`,
@@ -32,25 +31,24 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
   };
 
   return (
-    <div className="flex p-2 border-t dark:bg-[#080a09] border-t-white">
-      <img src="/rec.png" alt="Recorder" className="w-10 hover:scale-104 hover:bg-black hover:bg-clip-content"/>
+
+    <div className="flex p-2 bg-[#F6F6F7] border-t border-gray-300 dark:border-t-white dark:bg-[#1B1B1F]">
       <input
         type="text"
-        className="flex-1 p-2 border rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20 ml-2"
+        className="flex-1 p-2 bg-white/80 border border-gray-500 rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20"
         placeholder="Type a message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
-        
         onFocus={handleTyping}
         onKeyPress={handleTyping}
         onBlur={handleStopTyping}
       />
       <button
         onClick={handleSend}
-        className="px-4 bg-blue-500 dark:bg-red-700 text-white rounded-lg ml-2"
+        className="px-4 bg-blue-500 text-white rounded dark:bg-red-700 ml-2"
       >
-        Send
+        <BiSend />
       </button>
     </div>
    
