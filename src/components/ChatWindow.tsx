@@ -52,6 +52,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ name, setName }) => {
           ]);
         });
 
+
         socket.on("feedback", (data: any) => {
           setFeedback(data.feedback);
         });
@@ -68,11 +69,20 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ name, setName }) => {
     };
   }, []);
 
+    setTimeout(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, 100);
+
+
   // ✅ auto-scroll to bottom when messages update
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
+
+    
   }, [messages]);
 
   const handleSend = (message: string) => {
@@ -100,7 +110,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ name, setName }) => {
   };
 
   return (
-    <div className="flex flex-col h-[93.5vh]"> {/* ✅ added height + border */}
+    <div className="flex flex-col h-[93.5vh] max-sm:h-[93dvh] "> {/* ✅ added height + border */}
       <div className="p-2 text-sm text-gray-500 border-b border-b-gray-300 dark:text-amber-50 bg-[#F6F6F7] dark:bg-[#3A3A3A] flex justify-between"> {/* ✅ dark mode */}
         <span>
           Clients:{" "}

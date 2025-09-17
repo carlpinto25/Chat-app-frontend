@@ -10,7 +10,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, firstChar }) => {
   return (
     <div
       className={`bg-[#F6F6F7] border-r-2 border-r-gray-300 transition-all duration-300 ease-in-out overflow-hidden flex flex-col 
-        dark:bg-[#1B1B1F] dark:text-white ${isOpen ? "w-60 max-sm:w-30" : "w-0 p-0"}`} // ✅ Added dark mode + responsive width
+        dark:bg-[#1B1B1F] max-sm:h-[99.9dvh] dark:text-white ${isOpen ? "w-60 max-sm:w-30" : "w-0 p-0"}`} // ✅ Added dark mode + responsive width
     >
       <div
         className={`transition-opacity duration-300 flex flex-col flex-1 ${
