@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const firstChar = name ? name.charAt(0).toUpperCase() : "";
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-[#161618] overflow-y-auto">
+    <div className="flex h-[100dvh] fixed w-full bg-gray-50 dark:bg-[#161618]">
       <Sidebar isOpen={isSidebarOpen} firstChar={firstChar} />
 
       <div className="flex-1 flex flex-col">
