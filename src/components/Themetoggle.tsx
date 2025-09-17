@@ -27,7 +27,7 @@ export default function ThemeToggle() {
     return (
         <button
             onClick={()=>setDarkMode(!darkMode)}
-            className="flex items-center gap-2 px-2.5 max-sm:w-1/10 max-sm:px-1.5 max-sm:py-2 max-sm:absolute max-sm:top-1 max-sm:right-3 w-1/5 rounded-xl bg-gray-200 dark:bg-gray-800 text-black dark:text-white hover:scale-105 transition">
+            className="flex items-center size-8 gap-1 px-2.5 max-sm:w-1/10 max-sm:px-1.5 max-sm:py-2 max-sm:absolute max-sm:top-1 max-sm:right-3 w-1/5 rounded-xl max-sm:size-8  bg-gray-200 dark:bg-gray-800 text-black dark:text-white hover:scale-105 transition cursor-pointer">
                 {darkMode ? (
                     <>
                         🌞

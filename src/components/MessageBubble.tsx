@@ -22,7 +22,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
       className={`max-w-xs p-2 my-1 rounded-lg flex flex-col ${
         senderSide === "me"
           ? "bg-sky-800 dark:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white self-end dark:"
-          : "bg-gray-200 text-black self-start dark:bg-black/80 dark:text-white"
+          : "bg-gray-200 text-black self-start dark:bg-white/90 dark:text-black/80"
       }`}
     >
       <p>{text}</p>

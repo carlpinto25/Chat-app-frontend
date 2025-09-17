@@ -1,10 +1,10 @@
-
 import React, { useState } from "react";
-import { socket } from "../socket"; 
+import { socket } from "../socket";
+import AudioRecorder from "./AudioRecorder";
 
 interface MessageInputProps {
   onSend: (message: string) => void;
-  name: string; 
+  name: string;
 }
 
 const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
@@ -14,11 +14,10 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
     if (!message.trim()) return;
     onSend(message);
     setMessage("");
-    
+
     socket.emit("feedback", { feedback: "" });
   };
 
-  
   const handleTyping = () => {
     socket.emit("feedback", {
       feedback: `${name} is typing a message...`,
@@ -30,27 +29,41 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
       feedback: "",
     });
   };
+  const uploadAudio = async (blob: Blob) => {
+  const formData = new FormData();
+  formData.append('audio', blob, 'recording.webm');
+
+  try {
+    const response = await fetch('http://localhost:5000/upload-audio', {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await response.json();
+    console.log('Upload success', data);
+  } catch (error) {
+    console.error('Upload failed', error);
+ }
+};
 
   return (
     <div className="flex p-2 border-t dark:bg-[#080a09] border-t-white">
-      <img src="/rec.png" alt="Recorder" className="w-10 hover:scale-104 hover:bg-black hover:bg-clip-content"/>
+      <AudioRecorder onRecordingComplete={uploadAudio}/>
       <input
         type="text"
-        className="flex-1 p-2 border rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20 ml-2"
+        className="flex-1 p-2 border rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20"
         placeholder="Type a message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
-        
         onFocus={handleTyping}
         onKeyPress={handleTyping}
         onBlur={handleStopTyping}
       />
       <button
         onClick={handleSend}
-        className="px-4 bg-blue-500 dark:bg-red-700 text-white rounded-lg ml-2"
+        className="px-4 bg-blue-500 text-white rounded dark:bg-red-700 ml-2"
       >
-        Send
+        
       </button>
     </div>
    
