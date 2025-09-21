@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { socket } from "../socket";
 import AudioRecorder from "./AudioRecorder";
 
+
 interface MessageInputProps {
   onSend: (message: string) => void;
   name: string;
@@ -50,7 +51,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
       <AudioRecorder onRecordingComplete={uploadAudio}/>
       <input
         type="text"
-        className="flex-1 p-2 border ml-2 rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20"
+        className="flex-1 p-2 border ml-2 mt-12 h-1/2 rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20"
 
         placeholder="Type a message..."
         value={message}
@@ -62,7 +63,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
       />
       <button
         onClick={handleSend}
-        className="px-4 bg-blue-500 text-white rounded dark:bg-red-700 ml-2"
+        className="px-4 bg-blue-500 text-white rounded dark:bg-red-700 ml-2 h-1/2 mt-12"
       >
         Send
       </button>

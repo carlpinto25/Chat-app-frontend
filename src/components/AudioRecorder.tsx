@@ -85,17 +85,17 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     <div className="w-1/16">
       {/* Only show audio player if there's a recording URL */}
       {audioUrl && (
-        <audio controls src={audioUrl} className="w-60 -mt-20" />
+        <audio controls src={audioUrl} className="w-60 -mt-10" />
       )}
 
       {/* Record button */}
-      <button onClick={startRecording} disabled={isRecording}>
+      {!isRecording &&(<button onClick={startRecording} disabled={isRecording}>
         <img
           src="./rec.png"
           alt="recorder"
           className="w-10 mt-10 hover:scale-103"
         />
-      </button>
+      </button>)}
 
       {/* Timer and Stop button visible only while recording */}
       {isRecording && (
