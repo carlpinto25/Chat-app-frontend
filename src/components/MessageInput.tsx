@@ -50,7 +50,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
       <AudioRecorder onRecordingComplete={uploadAudio}/>
       <input
         type="text"
-        className="flex-1 p-2 border rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20"
+        className="flex-1 p-2 border ml-2 rounded dark:bg-gray-600 dark:text-white drop-shadow-amber-100 drop-shadow-lg/20"
 
         placeholder="Type a message..."
         value={message}
@@ -64,7 +64,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, name }) => {
         onClick={handleSend}
         className="px-4 bg-blue-500 text-white rounded dark:bg-red-700 ml-2"
       >
-        
+        Send
       </button>
     </div>
    

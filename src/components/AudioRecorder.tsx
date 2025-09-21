@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 interface AudioRecorderProps {
   onRecordingComplete: (blob: Blob) => void;
@@ -20,6 +20,18 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
   const chunks = useRef<Blob[]>([]);
   const [isRecording, setIsRecording] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string>();
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    let timer: number;
+    if (isRecording) {
+      setElapsed(0);
+      timer = window.setInterval(() => {
+        setElapsed((prev) => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isRecording]);
 
   const startRecording = async () => {
     try {
@@ -35,11 +47,12 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
       };
       mediaRecorder.current.onstop = () => {
         const recordedBlob = new Blob(chunks.current, { type: 'audio/webm' });
-        setAudioUrl(URL.createObjectURL(recordedBlob));
+        const url = URL.createObjectURL(recordedBlob);
+        setAudioUrl(url);
         onRecordingComplete(recordedBlob);
         if (downloadOnSavePress) {
           const link = document.createElement('a');
-          link.href = URL.createObjectURL(recordedBlob);
+          link.href = url;
           link.download = `recording.${downloadFileExtension}`;
           link.click();
         }
@@ -62,12 +75,40 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     setIsRecording(false);
   };
 
+  const formatTime = (sec: number) => {
+    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+    const s = (sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  };
 
   return (
-    <div>
-      <audio controls src={audioUrl}/>
-      <button onClick={startRecording} disabled={isRecording}><img src="./rec.png" alt="recorder" className="w-10 absolute top-205 mt-2 hover:scale-103"/></button>
-      <button onClick={stopRecording} disabled={!isRecording} className="w-8 bg-gray-600 border-2 ml-15">.</button>
+    <div className="w-1/16">
+      {/* Only show audio player if there's a recording URL */}
+      {audioUrl && (
+        <audio controls src={audioUrl} className="w-60 -mt-20" />
+      )}
+
+      {/* Record button */}
+      <button onClick={startRecording} disabled={isRecording}>
+        <img
+          src="./rec.png"
+          alt="recorder"
+          className="w-10 mt-10 hover:scale-103"
+        />
+      </button>
+
+      {/* Timer and Stop button visible only while recording */}
+      {isRecording && (
+        <div className="flex items-center space-x-4 mt-2">
+          <span className="text-red-500 font-bold">{formatTime(elapsed)}</span>
+          <button
+            onClick={stopRecording}
+            className="w-8 bg-gray-600 border-2 ml-2 text-white"
+          >
+            Stop
+          </button>
+        </div>
+      )}
     </div>
   );
 };
